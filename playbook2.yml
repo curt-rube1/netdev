@@ -1,0 +1,21 @@
+---
+
+- name: First Network Playbook
+  connection: network_cli
+  gather_facts: false
+  hosts: 'csr1'
+  tasks:
+
+    - name: configure loopback interface
+      ios_config:
+        lines:
+          - description test interface
+          - ip address 1.1.1.1 255.255.255.255
+        parents: interface loopback1
+   
+    - name: show interface
+      ios_command:
+        commands:
+          - show interface loopback1
+        wait_for:
+          - result[0]
